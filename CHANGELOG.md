@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 (2025-05-15)
+
+Full Changelog: [v1.0.0...v1.0.1](https://github.com/GouniManikumar12/admesh-python/compare/v1.0.0...v1.0.1)
+
+### Chores
+
+* update SDK settings ([34286e4](https://github.com/GouniManikumar12/admesh-python/commit/34286e42c6a5d189c37155c6f7473bc7353c323c))
+
 ## 1.0.0 (2025-05-15)
 
 Full Changelog: [v0.0.1-alpha.0...v1.0.0](https://github.com/GouniManikumar12/admesh-python/compare/v0.0.1-alpha.0...v1.0.0)
