@@ -349,4 +349,4 @@ Python 3.8 or higher.
 
 ## Contributing
 
-See [the contributing documentation](./CONTRIBUTING.md). 
+See [the contributing documentation](./CONTRIBUTING.md).
