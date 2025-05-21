@@ -36,7 +36,6 @@ client = Admesh(
 )
 
 response = client.recommend.get_recommendations(
-    agent_id="cursor",
     query="Best CRM for remote teams",
 )
 print(response.recommendation_id)
@@ -75,7 +74,6 @@ client = AsyncAdmesh(
 
 async def main() -> None:
     response = await client.recommend.get_recommendations(
-        agent_id="cursor",
         query="Best CRM for remote teams",
     )
     print(response.recommendation_id)
@@ -101,7 +99,6 @@ client = Admesh()
 
 try:
     client.recommend.get_recommendations(
-        agent_id="cursor",
         query="Best CRM for remote teams",
     )
 except admesh.APIConnectionError as e:

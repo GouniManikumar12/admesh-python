@@ -21,7 +21,6 @@ class TestRecommend:
     @parametrize
     def test_method_get_recommendations(self, client: Admesh) -> None:
         recommend = client.recommend.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
         )
         assert_matches_type(RecommendGetRecommendationsResponse, recommend, path=["response"])
@@ -30,7 +29,6 @@ class TestRecommend:
     @parametrize
     def test_method_get_recommendations_with_all_params(self, client: Admesh) -> None:
         recommend = client.recommend.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
             followup_suggestions="followup_suggestions",
             intent_summary="User just had a meeting about OKRs and needs a task management tool.",
@@ -46,7 +44,6 @@ class TestRecommend:
     @parametrize
     def test_raw_response_get_recommendations(self, client: Admesh) -> None:
         response = client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
         )
 
@@ -59,7 +56,6 @@ class TestRecommend:
     @parametrize
     def test_streaming_response_get_recommendations(self, client: Admesh) -> None:
         with client.recommend.with_streaming_response.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
         ) as response:
             assert not response.is_closed
@@ -78,7 +74,6 @@ class TestAsyncRecommend:
     @parametrize
     async def test_method_get_recommendations(self, async_client: AsyncAdmesh) -> None:
         recommend = await async_client.recommend.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
         )
         assert_matches_type(RecommendGetRecommendationsResponse, recommend, path=["response"])
@@ -87,7 +82,6 @@ class TestAsyncRecommend:
     @parametrize
     async def test_method_get_recommendations_with_all_params(self, async_client: AsyncAdmesh) -> None:
         recommend = await async_client.recommend.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
             followup_suggestions="followup_suggestions",
             intent_summary="User just had a meeting about OKRs and needs a task management tool.",
@@ -103,7 +97,6 @@ class TestAsyncRecommend:
     @parametrize
     async def test_raw_response_get_recommendations(self, async_client: AsyncAdmesh) -> None:
         response = await async_client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
         )
 
@@ -116,7 +109,6 @@ class TestAsyncRecommend:
     @parametrize
     async def test_streaming_response_get_recommendations(self, async_client: AsyncAdmesh) -> None:
         async with async_client.recommend.with_streaming_response.get_recommendations(
-            agent_id="cursor",
             query="Best CRM for remote teams",
         ) as response:
             assert not response.is_closed
