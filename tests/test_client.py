@@ -713,10 +713,7 @@ class TestAdmesh:
             self.client.post(
                 "/recommend",
                 body=cast(
-                    object,
-                    maybe_transform(
-                        dict(agent_id="cursor", query="Best CRM for remote teams"), RecommendGetRecommendationsParams
-                    ),
+                    object, maybe_transform(dict(query="Best CRM for remote teams"), RecommendGetRecommendationsParams)
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -733,10 +730,7 @@ class TestAdmesh:
             self.client.post(
                 "/recommend",
                 body=cast(
-                    object,
-                    maybe_transform(
-                        dict(agent_id="cursor", query="Best CRM for remote teams"), RecommendGetRecommendationsParams
-                    ),
+                    object, maybe_transform(dict(query="Best CRM for remote teams"), RecommendGetRecommendationsParams)
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -770,9 +764,7 @@ class TestAdmesh:
 
         respx_mock.post("/recommend").mock(side_effect=retry_handler)
 
-        response = client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor", query="Best CRM for remote teams"
-        )
+        response = client.recommend.with_raw_response.get_recommendations(query="Best CRM for remote teams")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -797,7 +789,7 @@ class TestAdmesh:
         respx_mock.post("/recommend").mock(side_effect=retry_handler)
 
         response = client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor", query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": Omit()}
+            query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -822,7 +814,7 @@ class TestAdmesh:
         respx_mock.post("/recommend").mock(side_effect=retry_handler)
 
         response = client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor", query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": "42"}
+            query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1505,10 +1497,7 @@ class TestAsyncAdmesh:
             await self.client.post(
                 "/recommend",
                 body=cast(
-                    object,
-                    maybe_transform(
-                        dict(agent_id="cursor", query="Best CRM for remote teams"), RecommendGetRecommendationsParams
-                    ),
+                    object, maybe_transform(dict(query="Best CRM for remote teams"), RecommendGetRecommendationsParams)
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -1525,10 +1514,7 @@ class TestAsyncAdmesh:
             await self.client.post(
                 "/recommend",
                 body=cast(
-                    object,
-                    maybe_transform(
-                        dict(agent_id="cursor", query="Best CRM for remote teams"), RecommendGetRecommendationsParams
-                    ),
+                    object, maybe_transform(dict(query="Best CRM for remote teams"), RecommendGetRecommendationsParams)
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -1563,9 +1549,7 @@ class TestAsyncAdmesh:
 
         respx_mock.post("/recommend").mock(side_effect=retry_handler)
 
-        response = await client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor", query="Best CRM for remote teams"
-        )
+        response = await client.recommend.with_raw_response.get_recommendations(query="Best CRM for remote teams")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1591,7 +1575,7 @@ class TestAsyncAdmesh:
         respx_mock.post("/recommend").mock(side_effect=retry_handler)
 
         response = await client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor", query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": Omit()}
+            query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1617,7 +1601,7 @@ class TestAsyncAdmesh:
         respx_mock.post("/recommend").mock(side_effect=retry_handler)
 
         response = await client.recommend.with_raw_response.get_recommendations(
-            agent_id="cursor", query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": "42"}
+            query="Best CRM for remote teams", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

@@ -9,8 +9,6 @@ __all__ = ["RecommendGetRecommendationsParams"]
 
 
 class RecommendGetRecommendationsParams(TypedDict, total=False):
-    agent_id: Required[str]
-
     query: Required[str]
 
     followup_suggestions: Optional[str]

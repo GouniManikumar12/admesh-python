@@ -32,7 +32,6 @@ client = Admesh(
 )
 
 response = client.recommend.get_recommendations(
-    agent_id="cursor",
     query="Best CRM for remote teams",
 )
 print(response.recommendation_id)
@@ -59,7 +58,6 @@ client = AsyncAdmesh(
 
 async def main() -> None:
     response = await client.recommend.get_recommendations(
-        agent_id="cursor",
         query="Best CRM for remote teams",
     )
     print(response.recommendation_id)
@@ -96,7 +94,6 @@ client = Admesh()
 
 try:
     client.recommend.get_recommendations(
-        agent_id="cursor",
         query="Best CRM for remote teams",
     )
 except admesh.APIConnectionError as e:
@@ -142,7 +139,6 @@ client = Admesh(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).recommend.get_recommendations(
-    agent_id="cursor",
     query="Best CRM for remote teams",
 )
 ```
@@ -168,7 +164,6 @@ client = Admesh(
 
 # Override per-request:
 client.with_options(timeout=5.0).recommend.get_recommendations(
-    agent_id="cursor",
     query="Best CRM for remote teams",
 )
 ```
@@ -212,7 +207,6 @@ from admesh import Admesh
 
 client = Admesh()
 response = client.recommend.with_raw_response.get_recommendations(
-    agent_id="cursor",
     query="Best CRM for remote teams",
 )
 print(response.headers.get('X-My-Header'))
@@ -233,7 +227,6 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.recommend.with_streaming_response.get_recommendations(
-    agent_id="cursor",
     query="Best CRM for remote teams",
 ) as response:
     print(response.headers.get("X-My-Header"))

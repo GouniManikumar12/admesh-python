@@ -46,7 +46,6 @@ class RecommendResource(SyncAPIResource):
     def get_recommendations(
         self,
         *,
-        agent_id: str,
         query: str,
         followup_suggestions: Optional[str] | NotGiven = NOT_GIVEN,
         intent_summary: Optional[str] | NotGiven = NOT_GIVEN,
@@ -78,7 +77,6 @@ class RecommendResource(SyncAPIResource):
             "/recommend",
             body=maybe_transform(
                 {
-                    "agent_id": agent_id,
                     "query": query,
                     "followup_suggestions": followup_suggestions,
                     "intent_summary": intent_summary,
@@ -120,7 +118,6 @@ class AsyncRecommendResource(AsyncAPIResource):
     async def get_recommendations(
         self,
         *,
-        agent_id: str,
         query: str,
         followup_suggestions: Optional[str] | NotGiven = NOT_GIVEN,
         intent_summary: Optional[str] | NotGiven = NOT_GIVEN,
@@ -152,7 +149,6 @@ class AsyncRecommendResource(AsyncAPIResource):
             "/recommend",
             body=await async_maybe_transform(
                 {
-                    "agent_id": agent_id,
                     "query": query,
                     "followup_suggestions": followup_suggestions,
                     "intent_summary": intent_summary,
