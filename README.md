@@ -13,8 +13,8 @@ The full API of this library can be found in [api.md](api.md).
 ## Installation
 
 ```sh
-# install from this staging repo
-pip install git+ssh://git@github.com/stainless-sdks/admesh-python.git
+# install from PyPI
+pip install admesh-python
 ```
 
 > [!NOTE]
