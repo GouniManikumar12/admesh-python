@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.0 (2025-05-22)
+
+Full Changelog: [v1.1.0...v1.2.0](https://github.com/GouniManikumar12/admesh-python/compare/v1.1.0...v1.2.0)
+
+### Features
+
+* **api:** update via SDK Studio ([213be04](https://github.com/GouniManikumar12/admesh-python/commit/213be04d9f79072173cd48256bed2a24222ca440))
+* **api:** update via SDK Studio ([bbc092a](https://github.com/GouniManikumar12/admesh-python/commit/bbc092a1e42cb7446f6c9612b3f3dca56adc7ea3))
+
+
+### Chores
+
+* **docs:** grammar improvements ([8cfa8a1](https://github.com/GouniManikumar12/admesh-python/commit/8cfa8a13efa87f497e50c40d1bfa897b10d743cd))
+
 ## 1.1.0 (2025-05-21)
 
 Full Changelog: [v1.0.1...v1.1.0](https://github.com/GouniManikumar12/admesh-python/compare/v1.0.1...v1.1.0)
