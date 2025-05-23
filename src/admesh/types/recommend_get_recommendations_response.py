@@ -6,13 +6,10 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["RecommendGetRecommendationsResponse", "DecisionFactors", "Intent", "Response", "ResponseRecommendation", "FollowupSuggestion"]
+__all__ = ["RecommendGetRecommendationsResponse", "Intent", "Response", "ResponseRecommendation", "FollowupSuggestion"]
 
 
-class DecisionFactors(BaseModel):
-    highlighted: Optional[List[str]] = None
-
-    reasoning: Optional[str] = None
+# No decision factors needed
 
 
 class Intent(BaseModel):

@@ -37,8 +37,14 @@ client = Admesh(
 
 response = client.recommend.get_recommendations(
     query="Best CRM for remote teams",
+    format="auto",
 )
 print(response.recommendation_id)
+# Access recommendations
+for rec in response.response.recommendations:
+    print(f"Title: {rec.title}")
+    print(f"Reason: {rec.reason}")
+    print(f"Link: {rec.admesh_link}")
 ```
 
 There are several ways to provide your API key:
@@ -75,8 +81,14 @@ client = AsyncAdmesh(
 async def main() -> None:
     response = await client.recommend.get_recommendations(
         query="Best CRM for remote teams",
+        format="auto",
     )
     print(response.recommendation_id)
+    # Access recommendations
+    for rec in response.response.recommendations:
+        print(f"Title: {rec.title}")
+        print(f"Reason: {rec.reason}")
+        print(f"Link: {rec.admesh_link}")
 
 
 asyncio.run(main())
@@ -100,6 +112,7 @@ client = Admesh()
 try:
     client.recommend.get_recommendations(
         query="Best CRM for remote teams",
+        format="auto",
     )
 except admesh.APIConnectionError as e:
     print("The server could not be reached")
