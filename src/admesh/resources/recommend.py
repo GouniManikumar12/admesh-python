@@ -47,13 +47,10 @@ class RecommendResource(SyncAPIResource):
         self,
         *,
         query: str,
-        followup_suggestions: Optional[str] | NotGiven = NOT_GIVEN,
-        intent_summary: Optional[str] | NotGiven = NOT_GIVEN,
-        model: Optional[str] | NotGiven = NOT_GIVEN,
+        format: Optional[str] | NotGiven = NOT_GIVEN,
         previous_query: Optional[str] | NotGiven = NOT_GIVEN,
+        previous_summary: Optional[str] | NotGiven = NOT_GIVEN,
         session_id: Optional[str] | NotGiven = NOT_GIVEN,
-        summary: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -65,6 +62,16 @@ class RecommendResource(SyncAPIResource):
         Get monetized product/tool recommendations
 
         Args:
+          query: The user's query
+
+          format: The format of the response (default: "auto")
+
+          previous_query: The user's previous query
+
+          previous_summary: Summary of the previous recommendation
+
+          session_id: The session ID
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -74,17 +81,14 @@ class RecommendResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._post(
-            "/recommend",
+            "/agent/recommend",
             body=maybe_transform(
                 {
                     "query": query,
-                    "followup_suggestions": followup_suggestions,
-                    "intent_summary": intent_summary,
-                    "model": model,
+                    "format": format,
                     "previous_query": previous_query,
+                    "previous_summary": previous_summary,
                     "session_id": session_id,
-                    "summary": summary,
-                    "user_id": user_id,
                 },
                 recommend_get_recommendations_params.RecommendGetRecommendationsParams,
             ),
@@ -119,13 +123,10 @@ class AsyncRecommendResource(AsyncAPIResource):
         self,
         *,
         query: str,
-        followup_suggestions: Optional[str] | NotGiven = NOT_GIVEN,
-        intent_summary: Optional[str] | NotGiven = NOT_GIVEN,
-        model: Optional[str] | NotGiven = NOT_GIVEN,
+        format: Optional[str] | NotGiven = NOT_GIVEN,
         previous_query: Optional[str] | NotGiven = NOT_GIVEN,
+        previous_summary: Optional[str] | NotGiven = NOT_GIVEN,
         session_id: Optional[str] | NotGiven = NOT_GIVEN,
-        summary: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -137,6 +138,16 @@ class AsyncRecommendResource(AsyncAPIResource):
         Get monetized product/tool recommendations
 
         Args:
+          query: The user's query
+
+          format: The format of the response (default: "auto")
+
+          previous_query: The user's previous query
+
+          previous_summary: Summary of the previous recommendation
+
+          session_id: The session ID
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -146,17 +157,14 @@ class AsyncRecommendResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._post(
-            "/recommend",
+            "/agent/recommend",
             body=await async_maybe_transform(
                 {
                     "query": query,
-                    "followup_suggestions": followup_suggestions,
-                    "intent_summary": intent_summary,
-                    "model": model,
+                    "format": format,
                     "previous_query": previous_query,
+                    "previous_summary": previous_summary,
                     "session_id": session_id,
-                    "summary": summary,
-                    "user_id": user_id,
                 },
                 recommend_get_recommendations_params.RecommendGetRecommendationsParams,
             ),

@@ -6,7 +6,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["RecommendGetRecommendationsResponse", "DecisionFactors", "Intent", "Response", "ResponseRecommendation"]
+__all__ = ["RecommendGetRecommendationsResponse", "DecisionFactors", "Intent", "Response", "ResponseRecommendation", "FollowupSuggestion"]
 
 
 class DecisionFactors(BaseModel):
@@ -16,15 +16,19 @@ class DecisionFactors(BaseModel):
 
 
 class Intent(BaseModel):
-    category: Optional[str] = None
+    categories: Optional[List[str]] = None
 
-    goal: Optional[List[str]] = None
+    goal: Optional[str] = None
 
-    intent_match_score: Optional[float] = None
+    llm_intent_confidence_score: Optional[float] = None
 
     known_mentions: Optional[List[str]] = None
 
-    type: Optional[str] = None
+    intent_type: Optional[str] = None
+
+    intent_group: Optional[str] = None
+
+    tags: Optional[List[str]] = None
 
 
 class ResponseRecommendation(BaseModel):
@@ -32,13 +36,13 @@ class ResponseRecommendation(BaseModel):
 
     admesh_link: str
 
-    admesh_trust_score: float
-
     product_id: str
 
     reason: str
 
     title: str
+
+    intent_match_score: Optional[float] = None
 
     features: Optional[List[str]] = None
 
@@ -47,8 +51,6 @@ class ResponseRecommendation(BaseModel):
     integrations: Optional[List[str]] = None
 
     pricing: Optional[str] = None
-
-    product_match_score: Optional[float] = None
 
     redirect_url: Optional[str] = None
 
@@ -67,29 +69,37 @@ class ResponseRecommendation(BaseModel):
     url: Optional[str] = None
 
 
-class Response(BaseModel):
-    final_verdict: Optional[str] = None
+class FollowupSuggestion(BaseModel):
+    label: Optional[str] = None
 
-    followup_suggestions: Optional[List[str]] = None
+    query: Optional[str] = None
+
+    product_mentions: Optional[List[str]] = None
+
+    admesh_links: Optional[dict] = None
+
+    session_id: Optional[str] = None
+
+
+class Response(BaseModel):
+    summary: Optional[str] = None
 
     recommendations: Optional[List[ResponseRecommendation]] = None
 
-    summary: Optional[str] = None
+    followup_suggestions: Optional[List[FollowupSuggestion]] = None
 
 
 class RecommendGetRecommendationsResponse(BaseModel):
-    decision_factors: Optional[DecisionFactors] = None
-
-    end_of_session: Optional[bool] = None
-
     intent: Optional[Intent] = None
+
+    response: Optional[Response] = None
+
+    tokens_used: Optional[int] = None
 
     api_model_used: Optional[str] = FieldInfo(alias="model_used", default=None)
 
     recommendation_id: Optional[str] = None
 
-    response: Optional[Response] = None
-
     session_id: Optional[str] = None
 
-    tokens_used: Optional[int] = None
+    end_of_session: Optional[bool] = None

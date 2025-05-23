@@ -11,16 +11,10 @@ __all__ = ["RecommendGetRecommendationsParams"]
 class RecommendGetRecommendationsParams(TypedDict, total=False):
     query: Required[str]
 
-    followup_suggestions: Optional[str]
-
-    intent_summary: Optional[str]
-
-    model: Optional[str]
+    format: Optional[str]
 
     previous_query: Optional[str]
 
+    previous_summary: Optional[str]
+
     session_id: Optional[str]
-
-    summary: Optional[str]
-
-    user_id: Optional[str]
