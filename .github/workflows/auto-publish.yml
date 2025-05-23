@@ -1,0 +1,96 @@
+name: Auto Version and Publish
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+jobs:
+  version-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine setuptools wheel
+
+      - name: Run tests
+        run: |
+          pip install -e ".[dev]"
+          python -m pytest
+
+      - name: Get current version
+        id: current_version
+        run: |
+          VERSION=$(grep -m 1 'version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "Current version: $VERSION"
+          echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Increment version
+        id: increment_version
+        run: |
+          CURRENT_VERSION=${{ steps.current_version.outputs.current_version }}
+          # Split version into parts
+          IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+
+          echo "New version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+          # Update version in pyproject.toml
+          sed -i "s/version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" pyproject.toml
+
+          # Update version in _version.py
+          sed -i "s/__version__ = \"$CURRENT_VERSION\"/__version__ = \"$NEW_VERSION\"/" src/admesh/_version.py
+
+      - name: Update .release-please-manifest.json
+        run: |
+          NEW_VERSION=${{ steps.increment_version.outputs.new_version }}
+          echo '{
+            ".": "'$NEW_VERSION'"
+          }' > .release-please-manifest.json
+
+      - name: Commit version changes
+        run: |
+          git config --local user.email "admesh-bot@useadmesh.com"
+          git config --local user.name "AdMesh Bot"
+          git add pyproject.toml src/admesh/_version.py .release-please-manifest.json
+          git commit -m "chore: bump version to ${{ steps.increment_version.outputs.new_version }} [skip ci]"
+          git push
+
+      - name: Build package
+        run: python -m build
+
+      - name: Publish to PyPI
+        run: |
+          python -m twine upload dist/* --username __token__ --password ${{ secrets.PYPI_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.increment_version.outputs.new_version }}
+          name: Release v${{ steps.increment_version.outputs.new_version }}
+          generate_release_notes: true
