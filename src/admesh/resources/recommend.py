@@ -18,6 +18,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from .._exceptions import NoRecommendationsError
 from ..types.recommend_get_recommendations_response import RecommendGetRecommendationsResponse
 
 __all__ = ["RecommendResource", "AsyncRecommendResource"]
@@ -57,6 +58,7 @@ class RecommendResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        raise_on_empty_recommendations: bool = True,
     ) -> RecommendGetRecommendationsResponse:
         """
         Get monetized product/tool recommendations
@@ -72,6 +74,8 @@ class RecommendResource(SyncAPIResource):
 
           session_id: The session ID
 
+          raise_on_empty_recommendations: Whether to raise a NoRecommendationsError when no recommendations are available (default: True)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -80,7 +84,7 @@ class RecommendResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._post(
+        response = self._post(
             "/agent/recommend",
             body=maybe_transform(
                 {
@@ -97,6 +101,15 @@ class RecommendResource(SyncAPIResource):
             ),
             cast_to=RecommendGetRecommendationsResponse,
         )
+
+        # Check if recommendations are empty or null
+        if (raise_on_empty_recommendations and
+            (not response.response or
+             not response.response.recommendations or
+             len(response.response.recommendations) == 0)):
+            raise NoRecommendationsError(f"No recommendations available for query: {query}")
+
+        return response
 
 
 class AsyncRecommendResource(AsyncAPIResource):
@@ -133,6 +146,7 @@ class AsyncRecommendResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        raise_on_empty_recommendations: bool = True,
     ) -> RecommendGetRecommendationsResponse:
         """
         Get monetized product/tool recommendations
@@ -148,6 +162,8 @@ class AsyncRecommendResource(AsyncAPIResource):
 
           session_id: The session ID
 
+          raise_on_empty_recommendations: Whether to raise a NoRecommendationsError when no recommendations are available (default: True)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -156,7 +172,7 @@ class AsyncRecommendResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._post(
+        response = await self._post(
             "/agent/recommend",
             body=await async_maybe_transform(
                 {
@@ -173,6 +189,15 @@ class AsyncRecommendResource(AsyncAPIResource):
             ),
             cast_to=RecommendGetRecommendationsResponse,
         )
+
+        # Check if recommendations are empty or null
+        if (raise_on_empty_recommendations and
+            (not response.response or
+             not response.response.recommendations or
+             len(response.response.recommendations) == 0)):
+            raise NoRecommendationsError(f"No recommendations available for query: {query}")
+
+        return response
 
 
 class RecommendResourceWithRawResponse:

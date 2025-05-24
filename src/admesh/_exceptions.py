@@ -15,6 +15,7 @@ __all__ = [
     "UnprocessableEntityError",
     "RateLimitError",
     "InternalServerError",
+    "NoRecommendationsError",
 ]
 
 
@@ -106,3 +107,11 @@ class RateLimitError(APIStatusError):
 
 class InternalServerError(APIStatusError):
     pass
+
+
+class NoRecommendationsError(AdmeshError):
+    """Raised when no recommendations are available for the given query."""
+
+    def __init__(self, message: str = "No recommendations available for the given query.") -> None:
+        super().__init__(message)
+        self.message = message

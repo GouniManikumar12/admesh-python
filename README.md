@@ -113,7 +113,14 @@ try:
     client.recommend.get_recommendations(
         query="Best CRM for remote teams",
         format="auto",
+        # Set to False if you want to handle empty recommendations yourself
+        raise_on_empty_recommendations=True,
     )
+except admesh.NoRecommendationsError as e:
+    print("No recommendations were found for your query")
+    print(e.message)
+    # Handle the case where no recommendations are available
+    # For example, you might want to suggest alternative queries
 except admesh.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -137,6 +144,7 @@ Error codes are as follows:
 | 429         | `RateLimitError`           |
 | >=500       | `InternalServerError`      |
 | N/A         | `APIConnectionError`       |
+| N/A         | `NoRecommendationsError`   |
 
 ## Requirements
 
