@@ -1,6 +1,6 @@
 [project]
 name = "admesh-python"
-version = "1.1.1"
+version = "1.1.2"
 description = "The official Python library for the admesh API"
 dynamic = ["readme"]
 license = "Apache-2.0"
