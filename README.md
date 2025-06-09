@@ -8,7 +8,8 @@ and offers both synchronous and asynchronous clients powered by [httpx](https://
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+- **Complete Documentation**: [https://docs.useadmesh.com/](https://docs.useadmesh.com/) - Full SDK documentation and guides
+- **API Reference**: The full API of this library can be found in [api.md](api.md)
 
 ## Installation
 

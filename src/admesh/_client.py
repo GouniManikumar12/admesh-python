@@ -79,7 +79,13 @@ class Admesh(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("ADMESH_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.useadmesh.com"
+            # Determine the appropriate base URL based on environment
+            environment = os.environ.get("ADMESH_ENVIRONMENT", os.environ.get("ENVIRONMENT", "production")).lower()
+
+            if environment in ["development", "dev"]:
+                base_url = os.environ.get("ADMESH_DEV_BASE_URL", "http://localhost:8000")
+            else:  # production or default
+                base_url = os.environ.get("ADMESH_PROD_BASE_URL", "https://api.useadmesh.com")
 
         super().__init__(
             version=__version__,
@@ -247,7 +253,13 @@ class AsyncAdmesh(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("ADMESH_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.useadmesh.com"
+            # Determine the appropriate base URL based on environment
+            environment = os.environ.get("ADMESH_ENVIRONMENT", os.environ.get("ENVIRONMENT", "production")).lower()
+
+            if environment in ["development", "dev"]:
+                base_url = os.environ.get("ADMESH_DEV_BASE_URL", "http://localhost:8080")
+            else:  # production or default
+                base_url = os.environ.get("ADMESH_PROD_BASE_URL", "https://api.useadmesh.com")
 
         super().__init__(
             version=__version__,
