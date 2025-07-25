@@ -48,6 +48,113 @@ for rec in response.response.recommendations:
     print(f"Link: {rec.admesh_link}")
 ```
 
+## PII Sanitization and Prompt Building
+
+The AdMesh Python SDK includes built-in PII (Personally Identifiable Information) sanitization functionality to help you create clean, privacy-preserving prompts for the recommendation API.
+
+### Basic Usage
+
+```python
+from admesh import sanitize_and_build
+
+# Sanitize user input and build a structured prompt
+user_input = "Hi, I'm Priya (priya@gmail.com). I'm a 27-year-old female building a wellness app."
+result = sanitize_and_build(user_input)
+
+print(result)
+# Output:
+# {
+#     "prompt": "Suggest tools for a 27-year-old female building a wellness app.",
+#     "removed": {
+#         "name": "Priya",
+#         "email": "priya@gmail.com",
+#         "phone": None
+#     },
+#     "extracted_context": {
+#         "age": 27,
+#         "gender": "female",
+#         "goal": "building a wellness app"
+#     }
+# }
+```
+
+### Integration with Recommendations
+
+```python
+import os
+from admesh import Admesh, sanitize_and_build
+
+client = Admesh(api_key=os.environ.get("ADMESH_API_KEY"))
+
+# User provides input with PII
+user_input = "I'm John (john@example.com), 30 years old, building a fintech startup"
+
+# Sanitize and build clean prompt
+sanitized = sanitize_and_build(user_input)
+
+# Use the clean prompt for recommendations
+response = client.recommend.get_recommendations(
+    query=sanitized["prompt"],
+    format="auto",
+)
+
+print(f"Clean prompt used: {sanitized['prompt']}")
+print(f"PII removed: {sanitized['removed']}")
+# Access recommendations as usual
+for rec in response.response.recommendations:
+    print(f"Title: {rec.title}")
+```
+
+### Privacy Assurance
+
+- **Local Processing**: All PII sanitization happens locally on your machine
+- **No External Calls**: No data is sent to external services during sanitization
+- **Complete Removal**: PII is completely removed from the final prompt
+- **No Storage**: Original input is not stored or logged anywhere
+
+### Performance Characteristics
+
+- **Fast Processing**: Typical processing time < 100ms for standard inputs
+- **Minimal Memory**: Uses pre-compiled regex patterns for efficiency
+- **No Network**: Zero network requests during sanitization process
+- **Thread Safe**: Can be used safely in multi-threaded applications
+
+### Supported PII Detection
+
+The sanitization function automatically detects and removes:
+
+- **Names**: "I'm John", "My name is Sarah", "This is Alice"
+- **Email Addresses**: Standard email formats including complex domains
+- **Phone Numbers**: US and international formats, various separators
+
+### Context Extraction
+
+The function also extracts useful context while removing PII:
+
+- **Age**: "I'm 25", "30 years old", "age 35"
+- **Gender**: "male", "female", "man", "woman", "guy", "girl"
+- **Goals**: "building an app", "creating a website", "working on a project"
+
+### Advanced Usage
+
+```python
+from admesh.sanitizer import PIISanitizer
+from admesh.builder import PromptBuilder
+
+# Use components separately for custom workflows
+sanitizer = PIISanitizer()
+builder = PromptBuilder()
+
+# Analyze text
+analysis = sanitizer.analyze_text("I'm Sarah, building a mobile app")
+
+# Build custom prompt
+prompt = builder.build_complete_prompt(
+    analysis['sanitized_text'],
+    analysis['extracted_context']
+)
+```
+
 There are several ways to provide your API key:
 
 1. **Direct parameter**: Pass it directly as shown above with the `api_key` parameter

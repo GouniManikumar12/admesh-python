@@ -29,6 +29,7 @@ from ._exceptions import (
 )
 from ._base_client import DefaultHttpxClient, DefaultAsyncHttpxClient
 from ._utils._logs import setup_logging as _setup_logging
+from .sanitize_and_build import sanitize_and_build, sanitize_user_input
 
 __all__ = [
     "types",
@@ -70,6 +71,8 @@ __all__ = [
     "DEFAULT_CONNECTION_LIMITS",
     "DefaultHttpxClient",
     "DefaultAsyncHttpxClient",
+    "sanitize_and_build",
+    "sanitize_user_input",
 ]
 
 if not _t.TYPE_CHECKING:
